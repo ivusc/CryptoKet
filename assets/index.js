@@ -5,6 +5,7 @@ import search from './Search.png';
 import tick from './tick.png';
 import cross from './cross.png';
 import logo02 from './logo02.png';
+import logo02New from './logo02_white.png';
 import menu from './menu.png';
 import discord from './discord.png';
 import instagram from './instagram.png';
@@ -36,6 +37,7 @@ import right from './right.png';
 import left from './left.png';
 import headerbg from './headerbg.png';
 import loader from './loader.gif';
+import loaderNew from './loader_new.gif';
 import arrow from './arrow.png';
 
 export default {
@@ -46,6 +48,7 @@ export default {
   tick,
   cross,
   logo02,
+  logo02New,
   menu,
   discord,
   instagram,
@@ -77,5 +80,6 @@ export default {
   left,
   headerbg,
   loader,
+  loaderNew,
   arrow,
 };

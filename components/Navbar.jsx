@@ -60,14 +60,14 @@ const Navbar = () => {
         <div className='flex flex-1 flex-row justify-start'>
           <Link href='/'>
             <div className='flexCenter md:hidden cursor-pointer' onClick={()=>{}}>
-              <Image src={images.logo02} objectFit='contain' width={32} height={32}
+              <Image src={images.logo02New} objectFit='contain' width={32} height={32}
                 alt='logo'></Image>
                 <p className='dark:text-white text-nft-black-1 font-semibold text-lg ml-1'>CryptoKet</p>
             </div>
           </Link>
           <Link href='/'>
             <div className='hidden md:flex' onClick={()=>{}}>
-              <Image src={images.logo02} objectFit='contain' width={32} height={32}
+              <Image src={images.logo02New} objectFit='contain' width={32} height={32}
                   alt='logo'></Image>
             </div>
           </Link>
