@@ -5,18 +5,21 @@ import Script from 'next/script';
 //Ours
 import { Navbar,Footer } from '../components';
 import '../styles/globals.css';
+import { NFTProvider } from '../context/NFTContext';
 
 const MyApp = ({ Component, pageProps }) => (
-  <ThemeProvider attribute='class'>
-    <div className='dark:bg-nft-dark bg-white min-h-screen'>
-      <Navbar></Navbar>
-      <div className='pt-65'>
-        <Component {...pageProps}/>
+  <NFTProvider>
+    <ThemeProvider attribute='class'>
+      <div className='dark:bg-nft-dark bg-white min-h-screen'>
+        <Navbar></Navbar>
+        <div className='pt-65'>
+          <Component {...pageProps}/>
+        </div>
+        <Footer></Footer>
       </div>
-      <Footer></Footer>
-    </div>
-    <Script src="https://kit.fontawesome.com/c1a1c44616.js" crossorigin="anonymous"></Script>
-  </ThemeProvider>
+      <Script src="https://kit.fontawesome.com/c1a1c44616.js" crossorigin="anonymous"></Script>
+    </ThemeProvider>
+  </NFTProvider>
 )
 
 export default MyApp

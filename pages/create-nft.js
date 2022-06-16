@@ -6,37 +6,40 @@ import Image from 'next/image';
 import { useTheme } from 'next-themes';
 
 import { Button, Input } from '../components';
-import images from '../assets'
+import images from '../assets';
+import { NFTContext } from '../context/NFTContext';
 
 const CreateNft = () => {
   const { theme }  = useTheme();
   const [fileUrl, setFileUrl] = useState(null);
+  const router = useRouter();
   const [formInput, setFormInput] = useState({
     price: '',
     name: '',
     description: ''
   })
+  const { uploadToIPFS, createNFT } = useContext(NFTContext);
+
+  const onDrop = useCallback(async (acceptedFile) => {
+    //upload image to blockchain [ipfs]
+    const url = await uploadToIPFS(acceptedFile[0]);
+
+    setFileUrl(()=>url);
+  },[]);
 
   const { getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject } = useDropzone({
-    onDrop: onDrop,
+    onDrop,
     accept: 'image/*',
-    maxSize:5000000,
-
-  })
+    maxSize: 5000000,
+  });
 
   const fileStyle = useMemo(()=>(
     `dark:bg-nft-black-1 bg-white border dark:border-white border-nft-gray-2 flex flex-col items-center p-5 rounded-sm
       border-dashed 
-      ${isDragActive && 'border-file-active'}
-      ${isDragAccept && 'border-file-accept'}
-      ${isDragReject && 'border-file-reject'}`
-  ),[])
-
-  console.log(formInput)
-
-  const onDrop = useCallback(() => {
-    //upload image to blockchain [ipfs]
-  },[]);
+      ${isDragActive ? ' border-file-active ' : ''} 
+      ${isDragAccept ? ' border-file-accept ' : ''} 
+      ${isDragReject ? ' border-file-reject ' : ''}`
+  ),[isDragActive, isDragReject, isDragAccept])
 
   return (
     <div className='flex justify-center sm:px-4 p-12'>
@@ -73,7 +76,7 @@ const CreateNft = () => {
             {fileUrl && (
               <aside>
                 <div>
-                  <img src={fileUrl} alt='asset_file' />
+                  <img src={fileUrl} alt='Asset_file' />
                 </div>
               </aside>
             )}
@@ -90,7 +93,8 @@ const CreateNft = () => {
         />
 
         <div className='mt-7 w-full flex justify-end'>
-          <Button btnName='Create NFT' classStyles='rounded-xl' handleClick={()=>{}} />
+          <Button btnName='Create NFT' classStyles='rounded-xl' 
+            handleClick={() => createNFT(formInput, fileUrl, router)} />
         </div>
       </div>
     </div>
