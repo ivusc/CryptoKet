@@ -1,6 +1,6 @@
-#Cryptoket - NFT Marketplace / OpenSea clone
+# Cryptoket - NFT Marketplace / OpenSea clone
 
-##By Crix
+## By Crix
 
 Live website at https://crypto-ket.vercel.app/
 
