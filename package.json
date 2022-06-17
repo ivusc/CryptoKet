@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "export SET NODE_OPTIONS=--openssl-legacy-provider && npx hardhat node",
+    "start": "export SET NODE_OPTIONS=--openssl-legacy-provider && npx hardhat node SET NODE_ENV=dev",
     "lint": "next lint"
   },
   "dependencies": {
@@ -16,7 +16,7 @@
     "ethers": "5.5.4",
     "hardhat": "2.9.0",
     "ipfs-http-client": "56.0.1",
-    "next": "12.1.0",
+    "next": "^12.1.0",
     "next-themes": "0.1.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",

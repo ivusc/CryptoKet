@@ -5,7 +5,7 @@ import { useDropzone } from 'react-dropzone';
 import Image from 'next/image';
 import { useTheme } from 'next-themes';
 
-import { Button, Input } from '../components';
+import { Button, Input, Loader } from '../components';
 import images from '../assets';
 import { NFTContext } from '../context/NFTContext';
 
@@ -18,7 +18,7 @@ const CreateNft = () => {
     name: '',
     description: ''
   })
-  const { uploadToIPFS, createNFT } = useContext(NFTContext);
+  const { uploadToIPFS, createNFT, isLoadingNFT } = useContext(NFTContext);
 
   const onDrop = useCallback(async (acceptedFile) => {
     //upload image to blockchain [ipfs]
@@ -40,6 +40,14 @@ const CreateNft = () => {
       ${isDragAccept ? ' border-file-accept ' : ''} 
       ${isDragReject ? ' border-file-reject ' : ''}`
   ),[isDragActive, isDragReject, isDragAccept])
+
+  if (isLoadingNFT){
+    return(
+      <div className='flexStart min-h-screen'>
+        <Loader />
+      </div>
+    )
+  }
 
   return (
     <div className='flex justify-center sm:px-4 p-12'>

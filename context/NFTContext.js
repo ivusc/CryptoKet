@@ -7,6 +7,7 @@ import { create as ipfsHttpClient } from 'ipfs-http-client';
 import { MarketAddress, MarketAddressABI } from './constants';
 
 const client = ipfsHttpClient('https://ipfs.infura.io:5001/api/v0');
+const ALCHEMY_API_KEY = 'J3j597wRLgIrloRK1GEj3UhCdWZ7FsPI';
 
 const fetchContract = (signerOrProvider) => new ethers.Contract(MarketAddress, MarketAddressABI, signerOrProvider);
 
@@ -14,6 +15,7 @@ export const NFTContext = React.createContext();
 
 export const NFTProvider = ({ children }) => {
   const [currentAccount, setCurrentAccount] = useState('');
+  const [isLoadingNFT, setIsLoadingNFT] = useState(false);
   const nftCurrency = 'ETH';
 
   const checkIfWalletIsConnected = async () => {
@@ -50,7 +52,8 @@ export const NFTProvider = ({ children }) => {
       const url = `https://ipfs.infura.io/ipfs/${added.path}`;
       return url;
     } catch (error) {
-      console.log('Error uploading file to ipfs.');
+      console.log(error);
+      console.log('Error uploading file to ipfs. 1');
     }
   };
 
@@ -72,7 +75,7 @@ export const NFTProvider = ({ children }) => {
       router.push('/');
     }catch(error){
       console.log(error);
-      console.log('Error uploading file to ipfs.');
+      console.log('Error uploading file to ipfs. 2');
     }
   }
 
@@ -89,13 +92,19 @@ export const NFTProvider = ({ children }) => {
     const listingPrice = await contract.getListingPrice();
 
     //form the transaction
-    const transaction = await contract.createToken(url, price, { value: listingPrice.toString() });
+    const transaction = !isReselling
+      ? await contract.createToken(url, price, { value: listingPrice.toString() })
+      : await contract.resellToken(id, price, { value: listingPrice.toString() });
 
+    setIsLoadingNFT(true);
     await transaction.wait();
   }
 
   const fetchNFTs = async () => {
-    const provider = new ethers.providers.JsonRpcProvider();  // fetch ALL nft on marketplace, not just the nft that belongs to you
+    setIsLoadingNFT(false);
+
+    const provider = new ethers.providers.JsonRpcProvider(`https://eth-goerli.alchemyapi.io/v2/${ALCHEMY_API_KEY}`);  // fetch ALL nft on marketplace, not just the nft that belongs to you
+    //const provider = new ethers.providers.AlchemyProvider('goerli',ALCHEMY_API_KEY);
     const contract = fetchContract(provider);
 
     const data = await contract.fetchMarketItems();
@@ -121,6 +130,8 @@ export const NFTProvider = ({ children }) => {
   }
 
   const fetchMyNFTsOrListedNFTs = async (type) => {
+    setIsLoadingNFT(false);
+
     const web3Modal = new Web3Modal();
     const connection = await web3Modal.connect();
     const provider = new ethers.providers.Web3Provider(connection);
@@ -152,9 +163,26 @@ export const NFTProvider = ({ children }) => {
     return items;
   }
 
+  const buyNFT = async (nft) => {
+    const web3Modal = new Web3Modal();
+    const connection = await web3Modal.connect();
+    const provider = new ethers.providers.Web3Provider(connection);
+    const signer = provider.getSigner();
+
+    const contract = fetchContract(signer);
+    const price = ethers.utils.parseUnits(nft.price.toString(), 'ether');
+
+    const transaction = await contract.createMarketSale(nft.tokenId, { value: price }); //msg.value
+
+    setIsLoadingNFT(true);
+    await transaction.wait();
+    setIsLoadingNFT(false);
+
+  }
+
   return (
     <NFTContext.Provider value={{ nftCurrency, connectWallet, currentAccount, uploadToIPFS, createNFT, fetchNFTs,
-     fetchMyNFTsOrListedNFTs }}>
+     fetchMyNFTsOrListedNFTs, buyNFT, createSale, isLoadingNFT }}>
       {children}
     </NFTContext.Provider>
   )
