@@ -11,7 +11,6 @@ const projectSecret = process.env.NEXT_PUBLIC_INFURA_SECRET_KEY;
 const auth = `Basic ${Buffer.from(`${projectId}:${projectSecret}`).toString('base64')}`;
 const options = { host: 'ipfs.infura.io', protocol: 'https', port: 5001, headers: { authorization: auth } };
 const client = ipfsHttpClient(options);
-const ALCHEMY_API_KEY = process.env.NEXT_PUBLIC_ALCHEMY_API_KEY;
 const dedicatedEndPoint = 'https://ivuschua.infura-ipfs.io';
 
 const fetchContract = (signerOrProvider) => new ethers.Contract(MarketAddress, MarketAddressABI, signerOrProvider);
@@ -108,7 +107,7 @@ export const NFTProvider = ({ children }) => {
   const fetchNFTs = async () => {
     setIsLoadingNFT(false);
 
-    const provider = new ethers.providers.JsonRpcProvider(`https://eth-goerli.alchemyapi.io/v2/${ALCHEMY_API_KEY}`);  // fetch ALL nft on marketplace, not just the nft that belongs to you
+    const provider = new ethers.providers.JsonRpcProvider(`https://eth-goerli.alchemyapi.io/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`);  // fetch ALL nft on marketplace, not just the nft that belongs to you
     //const provider = new ethers.providers.AlchemyProvider('goerli',ALCHEMY_API_KEY);
     const contract = fetchContract(provider);
 
