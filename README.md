@@ -14,7 +14,7 @@
 
 Read more [here](https://ivuschua.com/projects/cryptoket).
 
-# Tech Stack
+# Tech Stack 💻
 
 - Next JS
 - Tailwind CSS
