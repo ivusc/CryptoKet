@@ -1,7 +1,27 @@
-# Cryptoket - NFT Marketplace / OpenSea clone
 
-![Cryptoket Landing](https://i.ibb.co/9q6dZRX/cryptoket-landing-d2a13284d33ac9704a28-min.png)
+<div align='center'>
 
-Read the description [here](https://ivuschua.com/projects/cryptoket).<br/>
-Live website [here](https://crypto-ket.vercel.app/).
+  # Cryptoket
+</div>
+
+![Cryptoket Landing](./assets/thumbnail.png)
+
+# Features ✨
+
+- Metamask Login
+- NFT smart contract
+- Users can create / buy / sell NFTs
+
+Read more [here](https://ivuschua.com/projects/cryptoket).
+
+# Tech Stack
+
+- Next JS
+- Tailwind CSS
+- Solidity
+
+<div align='center'>
+
+### Click [here](https://crypto-ket.vercel.app/) to visit the live demo website.
+</div>
 
